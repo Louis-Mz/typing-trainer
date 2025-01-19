@@ -1,6 +1,4 @@
 // ---------------------------------- 1. Générer une liste de mots -----------------------------------
-// JS file: nothing here yet, but soon!
-console.log("Ready to code!");
 // Liste de mots pour l'entraînement
 const words = ["hello", "world", "javascript", "typing", "trainer", "fun", "speed", "accuracy"];
 
