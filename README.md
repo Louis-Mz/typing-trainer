@@ -26,13 +26,13 @@ typing-trainer/
 ## 🖥️ Mise en route
 1. Clonez le projet sur votre machine :
    git clone https://github.com/<ton-username>/typing-trainer.git
-   Ouvrez le fichier index.html dans un navigateur.
+2. Ouvrez le fichier index.html dans un navigateur.
 
 ## 📜 Licence
 Projet open-source sous licence MIT. Vous êtes libre de le modifier et de le partager. 😊
 
 ## 🌟 À venir
-Intégration d’un backend pour sauvegarder les scores.
-Mode multijoueur pour des compétitions entre amis.
-Personnalisation avancée (polices, thèmes...).
-Note : Ce projet est encore en développement. 🧑‍💻
+- Intégration d’un backend pour sauvegarder les scores.
+- Mode multijoueur pour des compétitions entre amis.
+- Personnalisation avancée (polices, thèmes...).
+- Note : Ce projet est encore en développement. 🧑‍💻
