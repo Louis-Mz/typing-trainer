@@ -1,16 +1,21 @@
-// ---------------------------------- 1. Générer une liste de mots -----------------------------------
 // Liste de mots pour l'entraînement
 const words = ["hello", "world", "javascript", "typing", "trainer", "fun", "speed", "accuracy"];
 
-// Sélectionner le conteneur où les mots s'afficheront
+// Sélection des éléments DOM
 const wordsContainer = document.getElementById("words-container");
+const typingInput = document.getElementById("typing-input");
+
+// Variables pour suivre la progression
+let currentWordIndex = 0; // Index du mot en cours
+let currentLetterIndex = 0; // Index de la lettre en cours
+
+// Donne le focus au champ de saisie invisible dès que la page charge
+typingInput.focus();
 
 // Fonction pour afficher les mots
 function displayWords() {
-  // Réinitialise le conteneur
-  wordsContainer.innerHTML = "";
+  wordsContainer.innerHTML = ""; // Vide le conteneur
 
-  // Génère les mots sous forme de <span>
   words.forEach(word => {
     const wordSpan = document.createElement("span");
     wordSpan.textContent = word + " "; // Ajoute un espace après chaque mot
@@ -18,17 +23,19 @@ function displayWords() {
   });
 }
 
-// Appelle la fonction au chargement
-displayWords();
+// Fonction pour déplacer le curseur et colorer les lettres
+function highlightCurrentLetter(status) {
+  const wordSpans = wordsContainer.querySelectorAll("span");
+  const currentWordSpan = wordSpans[currentWordIndex]; // Mot actuel
 
+  // Supprime les anciennes classes
+  currentWordSpan.classList.remove("correct", "incorrect");
 
-// ---------------------------------- 2. Capturer la saisie utilisateur -----------------------------------
-// Champ de saisie (invisible)
-const typingInput = document.getElementById("typing-input");
-
-// Variables pour suivre la progression
-let currentWordIndex = 0; // Index du mot en cours
-let currentLetterIndex = 0; // Index de la lettre en cours
+  // Applique une nouvelle classe selon le statut
+  if (status) {
+    currentWordSpan.classList.add(status);
+  }
+}
 
 // Écouter les frappes de l'utilisateur
 typingInput.addEventListener("input", () => {
@@ -37,35 +44,20 @@ typingInput.addEventListener("input", () => {
 
   // Comparer la saisie avec le mot attendu
   if (inputValue === currentWord.slice(0, inputValue.length)) {
-    // Correct : on met à jour le curseur
+    // Correct : met à jour l'affichage
     highlightCurrentLetter("correct");
   } else {
-    // Incorrect : on met en rouge
+    // Incorrect : indique une erreur
     highlightCurrentLetter("incorrect");
   }
 
-  // Si le mot est terminé
+  // Si l'utilisateur a fini de taper le mot
   if (inputValue === currentWord) {
-    // Passe au mot suivant
-    currentWordIndex++;
-    currentLetterIndex = 0;
-    typingInput.value = ""; // Réinitialise le champ
+    currentWordIndex++; // Passe au mot suivant
+    currentLetterIndex = 0; // Réinitialise l'index des lettres
+    typingInput.value = ""; // Vide le champ de saisie
   }
 });
 
-// ---------------------------------- 3. Gérer le curseur et les couleurs -----------------------------------
-// Fonction pour déplacer le curseur et colorer les lettres
-function highlightCurrentLetter(status) {
-    const wordSpans = wordsContainer.querySelectorAll("span");
-    const currentWordSpan = wordSpans[currentWordIndex]; // Récupère le mot actuel
-  
-    // Supprime les anciennes classes
-    currentWordSpan.classList.remove("correct", "incorrect");
-  
-    // Applique une nouvelle classe selon le statut
-    currentWordSpan.classList.add(status);
-  
-    // Déplace le curseur (facultatif : tu peux améliorer cette logique plus tard)
-    const cursor = document.getElementById("cursor");
-    cursor.style.left = `${currentWordSpan.offsetLeft + currentLetterIndex * 10}px`; // Position du curseur
-}
+// Affiche les mots au chargement
+displayWords();
