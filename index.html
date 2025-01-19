@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Trainer</title>
+  <link rel="stylesheet" href="style.css"> <!-- Lien vers le fichier CSS -->
+  <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS -->
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-900 text-white">
+  <div class="w-3/4 max-w-xl">
+    <div class="relative bg-gray-800 rounded-lg p-4 text-lg leading-loose" id="words-container">
+      <span class="text-green-500">word</span>
+      <span>after</span>
+      <span>word</span>
+      <span class="text-red-500">mistake</span>
+      <div class="cursor" id="cursor"></div>
+    </div>
+    <input 
+      type="text" 
+      id="typing-input" 
+      class="absolute top-0 left-0 w-full h-0 opacity-0" 
+      autocomplete="off"
+    />
+  </div>
+
+  <script src="app.js"></script> <!-- Lien vers le fichier JS -->
+</body>
+</html>
