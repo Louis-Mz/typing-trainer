@@ -1,81 +1,153 @@
-console.log("Script chargé !");
+// Liste de mots à afficher
+const words = ["hello", "world", "javascript", "typing", "trainer", "speed", "accuracy"];
 
-document.addEventListener("DOMContentLoaded", () => {
-  
-  // Liste de mots pour l'entraînement
-  const words = ["hello", "world", "javascript", "typing", "trainer", "fun", "speed", "accuracy"];
+// Récupérer les éléments HTML
+const wordsContainer = document.getElementById("words-container");
+const typingInput = document.getElementById("typing-input");
 
-  // Sélection des éléments DOM
-  const wordsContainer = document.getElementById("words-container");
-  const typingInput = document.getElementById("typing-input");
+// Variables de progression
+let currentWordIndex = 0; // Mot actuel
+let currentInput = ""; // Ce que l'utilisateur a tapé jusqu'à présent
 
-  // Variables pour suivre la progression
-  let currentWordIndex = 0; // Index du mot en cours
-  let currentLetterIndex = 0; // Index de la lettre en cours
-
-  // Donne le focus au champ de saisie invisible dès que la page charge
-  document.addEventListener("DOMContentLoaded", () => {
-    const typingInput = document.getElementById("typing-input");
-  
-    if (!typingInput) {
-      console.error("Erreur : L'élément #typing-input est introuvable !");
-      return;
-    }
-  
-    typingInput.focus();
-    console.log("Champ de saisie prêt et focus appliqué !");
+// Fonction pour afficher les mots
+function displayWords() {
+  wordsContainer.innerHTML = ""; // Vide le conteneur avant d'ajouter les mots
+  words.forEach(word => {
+    const wordSpan = document.createElement("span");
+    wordSpan.textContent = word + " "; // Ajoute un espace entre les mots
+    wordsContainer.appendChild(wordSpan);
   });
+}
 
-  // Fonction pour afficher les mots
-  function displayWords() {
-    wordsContainer.innerHTML = ""; // Vide le conteneur
-
-    words.forEach(word => {
-      const wordSpan = document.createElement("span");
-      wordSpan.textContent = word + " "; // Ajoute un espace après chaque mot
-      wordsContainer.appendChild(wordSpan);
-    });
-  }
-
-  // Fonction pour déplacer le curseur et colorer les lettres
-  function highlightCurrentLetter(status) {
-    const wordSpans = wordsContainer.querySelectorAll("span");
-    const currentWordSpan = wordSpans[currentWordIndex]; // Mot actuel
-
-    // Supprime les anciennes classes
-    currentWordSpan.classList.remove("correct", "incorrect");
-
-    // Applique une nouvelle classe selon le statut
-    if (status) {
-      currentWordSpan.classList.add(status);
-    }
-  }
-
-  // Écouter les frappes de l'utilisateur
-  typingInput.addEventListener("input", () => {
-    const inputValue = typingInput.value; // Ce que l'utilisateur a tapé
-    const currentWord = words[currentWordIndex]; // Mot attendu
-
-    // Comparer la saisie avec le mot attendu
-    if (inputValue === currentWord.slice(0, inputValue.length)) {
-      // Correct : met à jour l'affichage
-      highlightCurrentLetter("correct");
-    } else {
-      // Incorrect : indique une erreur
-      highlightCurrentLetter("incorrect");
-    }
-
-    // Si l'utilisateur a fini de taper le mot
-    if (inputValue === currentWord) {
-      currentWordIndex++; // Passe au mot suivant
-      currentLetterIndex = 0; // Réinitialise l'index des lettres
-      typingInput.value = ""; // Vide le champ de saisie
-    }
-  });
-
-  // Affiche les mots au chargement
-  displayWords();
-
-  // Exemple d'autre code
-  console.log("DOM fully loaded and parsed");
+// Écouter la saisie dans le champ
+typingInput.addEventListener("input", () => {
+  console.log("Saisie détectée :", typingInput.value);
 });
+
+// Initialisation
+displayWords();
+
+// Fonction pour comparer la saisie
+function checkInput() {
+  const currentWord = words[currentWordIndex]; // Mot attendu
+  const input = typingInput.value; // Saisie utilisateur
+
+  // Vérifie si la saisie correspond au début du mot attendu
+  if (currentWord.startsWith(input)) {
+    wordsContainer.children[currentWordIndex].style.color = "green"; // Correct
+  } else {
+    wordsContainer.children[currentWordIndex].style.color = "red"; // Incorrect
+  }
+
+  // Si le mot est terminé (entièrement correct)
+  if (input === currentWord) {
+    wordsContainer.children[currentWordIndex].style.color = "gray"; // Marquer le mot comme terminé
+    currentWordIndex++; // Passe au mot suivant
+    typingInput.value = ""; // Réinitialise la saisie
+    currentInput = ""; // Réinitialise la saisie stockée
+  }
+}
+
+// Écouter la saisie
+typingInput.addEventListener("input", checkInput);
+
+typingInput.addEventListener("keydown", (e) => {
+  if (e.code === "Space") {
+    e.preventDefault(); // Empêche l'ajout d'un espace dans l'input
+
+    const currentWord = words[currentWordIndex]; // Mot attendu
+    const input = typingInput.value.trim(); // Supprime les espaces accidentels
+
+    if (input === currentWord) {
+      wordsContainer.children[currentWordIndex].style.color = "gray"; // Mot correct
+    } else {
+      wordsContainer.children[currentWordIndex].style.color = "red"; // Mot incorrect
+    }
+
+    // Passe au mot suivant
+    currentWordIndex++;
+    typingInput.value = ""; // Réinitialise la saisie
+    currentInput = ""; // Réinitialise la saisie stockée
+  }
+});
+
+function checkInput() {
+  const currentWord = words[currentWordIndex]; // Mot attendu
+  const input = typingInput.value.trim(); // Supprime les espaces accidentels
+
+  // Si l'utilisateur revient en arrière
+  if (input === "" && currentWordIndex > 0) {
+    currentWordIndex--; // Reviens au mot précédent
+    typingInput.value = ""; // Vide l'input
+    wordsContainer.children[currentWordIndex].style.color = "black"; // Réinitialise le style
+    highlightActiveWord(); // Mets à jour le surlignage
+    moveCursor(); // Mets à jour le curseur
+    return;
+  }
+
+  // Vérifie si la saisie correspond au mot attendu
+  if (currentWord.startsWith(input)) {
+    wordsContainer.children[currentWordIndex].style.color = "green"; // Correct
+  } else {
+    wordsContainer.children[currentWordIndex].style.color = "red"; // Incorrect
+  }
+}
+
+
+// Fonction pour mettre à jour le mot actif
+function highlightActiveWord() {
+  // Réinitialise tous les mots
+  const wordSpans = wordsContainer.querySelectorAll("span");
+  wordSpans.forEach(span => span.classList.remove("active-word"));
+
+  // Ajoute la classe au mot actif
+  if (wordSpans[currentWordIndex]) {
+    wordSpans[currentWordIndex].classList.add("active-word");
+  }
+}
+
+// Mets à jour le mot actif après chaque action
+typingInput.addEventListener("keydown", (e) => {
+  if (e.code === "Space") {
+    highlightActiveWord();
+  }
+});
+
+// Appelle cette fonction à l'initialisation
+highlightActiveWord();
+
+// Récupérer l'élément du curseur
+const cursor = document.getElementById("cursor");
+
+// Fonction pour déplacer le curseur
+function moveCursor() {
+  const wordSpans = wordsContainer.querySelectorAll("span");
+  const currentWordSpan = wordSpans[currentWordIndex]; // Récupère le mot actif
+
+  if (!currentWordSpan || currentInput === null) {
+    console.warn("Aucun mot actif ou saisie invalide pour déplacer le curseur !");
+    cursor.style.display = "none"; // Cache le curseur si aucun mot actif
+    return;
+  }
+
+  // Réaffiche le curseur s'il est caché
+  cursor.style.display = "block";
+
+  // Calcul de la position du curseur
+  const rect = currentWordSpan.getBoundingClientRect();
+  const letterWidth = rect.width / currentWordSpan.textContent.length;
+  const cursorX = rect.left + window.scrollX + currentInput.length * letterWidth;
+
+  cursor.style.transform = `translateX(${cursorX}px) translateY(${rect.top + window.scrollY}px)`;
+}
+
+
+
+// Mets à jour le curseur à chaque saisie
+typingInput.addEventListener("input", () => {
+  currentInput = typingInput.value.trim(); // Mise à jour de l'input utilisateur
+  moveCursor();
+});
+
+// Appelle cette fonction au début
+moveCursor();

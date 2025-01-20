@@ -1,27 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Typing Trainer</title>
-	<link rel="stylesheet" href="style.css"> <!-- Lien vers le fichier CSS -->
-	<script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Trainer</title>
+  <style>
+    /* CSS de base */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f4f4f4;
+    }
+
+    #container {
+      width: 80%;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    #words-container {
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #eaeaea;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      min-height: 50px;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #words-container span {
+      margin-right: 5px;
+      font-size: 18px;
+    }
+
+
+    #typing-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .active-word {
+      background-color: #ffd54f; /* Jaune clair */
+      border-radius: 5px;
+      padding: 2px 5px;
+    }
+  </style>
 </head>
-<body class="flex items-center justify-center min-h-screen bg-gray-900 text-white">
-	<div class="w-3/4 max-w-xl">
-	  <!-- Zone des mots -->
-	  <div class="relative bg-gray-800 rounded-lg p-4 text-lg leading-loose" id="words-container"></div>
-  
-	  <!-- Champ de saisie invisible -->
-	  <input 
-		type="text" 
-		id="typing-input" 
-		class="absolute top-0 left-0 w-full h-0 opacity-0" 
-		autocomplete="off"
-	  />
-	</div>
-  
-	<!-- Charge le script ici, après l'élément -->
-	<script src="app.js"></script>
-  </body>
+<body>
+  <div id="container">
+    <h1>Typing Trainer</h1>
+    <!-- Zone où les mots apparaissent -->
+    <div id="words-container">
+      <div id="cursor"></div> <!-- Le curseur -->
+    </div>
+    <!-- Champ de saisie -->
+    <input type="text" id="typing-input" placeholder="Start typing..." autocomplete="off">
+  </div>
+  <script src="app.js"></script>
+</body>
 </html>
