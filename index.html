@@ -53,6 +53,19 @@
       border-radius: 5px;
       padding: 2px 5px;
     }
+
+    #cursor {
+      position: absolute;
+      width: 2px;
+      height: 20px;
+      background-color: black;
+      animation: blink 1s steps(2, start) infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
   </style>
 </head>
 <body>

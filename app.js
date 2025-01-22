@@ -5,10 +5,6 @@ const words = ["hello", "world", "javascript", "typing", "trainer", "speed", "ac
 const wordsContainer = document.getElementById("words-container");
 const typingInput = document.getElementById("typing-input");
 
-// Variables de progression
-let currentWordIndex = 0; // Mot actuel
-let currentInput = ""; // Ce que l'utilisateur a tapé jusqu'à présent
-
 // Fonction pour afficher les mots
 function displayWords() {
   wordsContainer.innerHTML = ""; // Vide le conteneur avant d'ajouter les mots
@@ -26,6 +22,10 @@ typingInput.addEventListener("input", () => {
 
 // Initialisation
 displayWords();
+
+// Variables de progression
+let currentWordIndex = 0; // Mot actuel
+let currentInput = ""; // Ce que l'utilisateur a tapé jusqu'à présent
 
 // Fonction pour comparer la saisie
 function checkInput() {
@@ -93,7 +93,6 @@ function checkInput() {
   }
 }
 
-
 // Fonction pour mettre à jour le mot actif
 function highlightActiveWord() {
   // Réinitialise tous les mots
@@ -124,8 +123,8 @@ function moveCursor() {
   const wordSpans = wordsContainer.querySelectorAll("span");
   const currentWordSpan = wordSpans[currentWordIndex]; // Récupère le mot actif
 
-  if (!currentWordSpan || currentInput === null) {
-    console.warn("Aucun mot actif ou saisie invalide pour déplacer le curseur !");
+  if (!currentWordSpan) {
+    console.warn("Aucun mot actif pour déplacer le curseur !");
     cursor.style.display = "none"; // Cache le curseur si aucun mot actif
     return;
   }
@@ -140,7 +139,6 @@ function moveCursor() {
 
   cursor.style.transform = `translateX(${cursorX}px) translateY(${rect.top + window.scrollY}px)`;
 }
-
 
 
 // Mets à jour le curseur à chaque saisie
